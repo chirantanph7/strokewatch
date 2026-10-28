@@ -1,0 +1,26 @@
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+.DS_Store
+
+# Dataset files are not redistributed (m1_jyot/LICENCE_NOTE.md). Rebuild with `make data`.
+*.csv
+!app/sample_records.csv
+!reports/shap_global.csv
+*.parquet
+data/splits_REAL.json
+m1_jyot/splits.json
+
+# Trained artifacts and per-patient outputs: rebuild with `make all`
+models/
+reports/oof_predictions.csv
+reports/search_log.csv
+
+# Personal notes, not for the public repo
+private/
+.claude/
+
+# Course material and decks with student IDs: kept local
+reference/
+presentation/

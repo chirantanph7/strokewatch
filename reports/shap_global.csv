@@ -1,0 +1,14 @@
+variable,label,mean_abs_shap
+age,Age,1.851636728925321
+comorbidity_count,Comorbidity count,0.17067760056174375
+avg_glucose_level,Average glucose,0.15754107170674642
+ever_married,Ever married,0.1506077610309968
+smoking_status,Smoking status,0.1341981401081492
+bmi_missing,BMI not recorded,0.1309822424770108
+work_type,Work type,0.12778642748601124
+bmi,BMI,0.08921754074147976
+gender,Gender,0.08400804193263577
+age_x_hypertension,Age x hypertension,0.07459339518921541
+hypertension,Hypertension,0.06533273763201716
+Residence_type,Residence,0.026300432544116143
+heart_disease,Heart disease,0.021976306108287613

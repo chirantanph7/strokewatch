@@ -1,0 +1,94 @@
+# StrokeWatch — schema.yaml
+# Source: healthcare-dataset-stroke-data.csv (Kaggle, fedesoriano)
+# Owner: Jyot (M1 — Data Engineering and Cleaning)
+#
+# This is the contract every downstream module (M2–M5) relies on.
+# Do not change column names or types here without telling the whole team —
+# M2's features.py, M3/M4's pipelines, and M5's dashboard upload validator
+# all import this file.
+
+columns:
+  id:
+    dtype: int64
+    role: identifier
+    nullable: false
+    notes: "Unique per row. Not a feature — drop before modeling, keep for traceability."
+
+  gender:
+    dtype: category
+    role: predictor
+    nullable: false
+    categories: ["Male", "Female", "Other"]
+    notes: "'Other' has n=1 in the known dataset. Flag, don't silently drop — log the decision."
+
+  age:
+    dtype: float64
+    role: predictor
+    nullable: false
+    plausible_range: [0.0, 100.0]
+    notes: "Dataset includes fractional ages for infants (e.g. 0.08). Not a data error — keep."
+
+  hypertension:
+    dtype: int64
+    role: predictor
+    nullable: false
+    categories: [0, 1]
+
+  heart_disease:
+    dtype: int64
+    role: predictor
+    nullable: false
+    categories: [0, 1]
+
+  ever_married:
+    dtype: category
+    role: predictor
+    nullable: false
+    categories: ["Yes", "No"]
+
+  work_type:
+    dtype: category
+    role: predictor
+    nullable: false
+    categories: ["Private", "Self-employed", "Govt_job", "children", "Never_worked"]
+
+  Residence_type:
+    dtype: category
+    role: predictor
+    nullable: false
+    categories: ["Urban", "Rural"]
+
+  avg_glucose_level:
+    dtype: float64
+    role: predictor
+    nullable: false
+    plausible_range: [40.0, 300.0]
+    notes: "Values outside this range should be flagged in the quality report, not dropped, unless clearly impossible (e.g. negative)."
+
+  bmi:
+    dtype: float64
+    role: predictor
+    nullable: true
+    plausible_range: [10.0, 80.0]
+    notes: "~201 missing values expected (as 'N/A' string in raw CSV). Impute with indicator, fit on training folds only — never drop rows for this."
+
+  smoking_status:
+    dtype: category
+    role: predictor
+    nullable: false
+    categories: ["formerly smoked", "never smoked", "smokes", "Unknown"]
+    notes: "'Unknown' is a real, informative category (missing-not-at-random) — keep it as a level, do not treat as NaN."
+
+  stroke:
+    dtype: int64
+    role: target
+    nullable: false
+    categories: [0, 1]
+    notes: "~4.9% positive in the known dataset. Never impute or derive this column."
+
+checks:
+  - no_duplicate_ids
+  - no_fully_duplicate_rows
+  - age_consistent_with_work_type   # e.g. work_type == 'children' should have low age; flag mismatches, don't auto-fix
+  - stroke_only_0_or_1
+  - bmi_missing_is_only_expected_null_column
