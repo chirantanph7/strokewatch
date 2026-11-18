@@ -2,5 +2,10 @@
 base = "light"
 primaryColor = "#2a78d6"
 
+[server]
+# Skip Streamlit's first-run email prompt, which otherwise blocks startup
+headless = true
+port = 8501
+
 [browser]
 gatherUsageStats = false

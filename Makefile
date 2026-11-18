@@ -24,13 +24,21 @@ docs:
 test:
 	$(PY) -m pytest tests/ -v
 
+APP_URL = http://localhost:8501
+# headless mode (see .streamlit/config.toml) doesn't open a browser, so open one once the server is up
+OPEN_BROWSER = ($(PY) -c "import time, webbrowser; time.sleep(4); webbrowser.open('$(APP_URL)')" &)
+
 app:
+	@echo "Starting StrokeWatch at $(APP_URL) (Ctrl-C to stop)"
+	@$(OPEN_BROWSER)
 	$(PY) -m streamlit run app/streamlit_app.py
 
 # Pre-flight for a live demo: model present, tests green, then launch the app
 demo:
 	@test -f models/final_model.joblib || (echo "No trained model: run make train explain first" && exit 1)
 	$(PY) -m pytest tests/ -q
+	@echo "Starting StrokeWatch at $(APP_URL) (Ctrl-C to stop)"
+	@$(OPEN_BROWSER)
 	$(PY) -m streamlit run app/streamlit_app.py
 
 clean:
