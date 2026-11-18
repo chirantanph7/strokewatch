@@ -65,8 +65,9 @@ def validate_records(raw: pd.DataFrame, schema: dict | None = None):
             if not_number.any():
                 errors.append(f"`{col}` has non-numeric value(s) in row(s) "
                               f"{', '.join(str(i + 1) for i in df.index[not_number][:5])}.")
-            if numeric.isna().any() and not spec.get("nullable", False):
-                errors.append(f"`{col}` is empty in {int(numeric.isna().sum())} row(s); it is required.")
+            empty = numeric.isna() & ~not_number  # non-numbers were already reported above
+            if empty.any() and not spec.get("nullable", False):
+                errors.append(f"`{col}` is empty in {int(empty.sum())} row(s); it is required.")
             if "plausible_range" in spec:
                 lo, hi = spec["plausible_range"]
                 out = numeric.notna() & ~numeric.between(lo, hi)

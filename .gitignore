@@ -7,6 +7,7 @@ __pycache__/
 # Dataset files are not redistributed (m1_jyot/LICENCE_NOTE.md). Rebuild with `make data`.
 *.csv
 !app/sample_records.csv
+!app/demo_bad_records.csv
 !reports/shap_global.csv
 *.parquet
 data/splits_REAL.json

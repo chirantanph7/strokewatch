@@ -56,7 +56,7 @@ make data      # checks the SHA-256, rebuilds the typed table and frozen splits
 make train     # ablation, 3 tuned models, adoption rule, one holdout evaluation (~7 min)
 make explain   # SHAP global importance
 make docs      # feature dictionary from the fitted model
-make test      # 36 tests
+make test      # 37 tests
 make app       # Streamlit dashboard at http://localhost:8501
 ```
 

@@ -112,3 +112,14 @@ def test_dashboard_renders_all_tabs_with_notice():
     assert any("not a medical device" in w.value for w in at.warning)
     assert len(at.tabs) == 4
     assert at.metric[0].value == "6"  # built-in sample scored
+
+
+def test_demo_bad_file_gives_one_message_per_problem():
+    """app/demo_bad_records.csv is used live in the demo to show the upload checks."""
+    bad = pd.read_csv(ROOT / "app" / "demo_bad_records.csv", dtype=str, keep_default_na=False)
+    records, errors, warnings = validate_records(bad)
+    assert records is None
+    assert len(errors) == 2  # non-numeric glucose, unknown smoking category; no duplicate "empty" error
+    assert any("avg_glucose_level" in e for e in errors)
+    assert any("sometimes" in e for e in errors)
+    assert any("`age`" in w for w in warnings)

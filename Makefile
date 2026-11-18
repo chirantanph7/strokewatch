@@ -1,7 +1,7 @@
 PY ?= .venv/bin/python
 CSV ?= m1_jyot/healthcare-dataset-stroke-data.csv
 
-.PHONY: all setup data train explain docs test app clean
+.PHONY: all setup data train explain docs test app demo clean
 
 all: data train explain docs test
 
@@ -25,6 +25,12 @@ test:
 	$(PY) -m pytest tests/ -v
 
 app:
+	$(PY) -m streamlit run app/streamlit_app.py
+
+# Pre-flight for a live demo: model present, tests green, then launch the app
+demo:
+	@test -f models/final_model.joblib || (echo "No trained model: run make train explain first" && exit 1)
+	$(PY) -m pytest tests/ -q
 	$(PY) -m streamlit run app/streamlit_app.py
 
 clean:

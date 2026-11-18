@@ -36,7 +36,7 @@ Every step is fit on the training fold only. Never fit anything on the full data
 | `train.py` / `report.py` | Full experiment: ablation, LR/XGBoost/RF, adoption rule, calibration, threshold, one holdout eval. `report.py` alone redraws figures from a finished run. |
 | `explain.py` | SHAP (Linear or Tree explainer), grouping to source variables, global importance figure. |
 | `app/` | Streamlit dashboard (`streamlit_app.py`), upload validation against `data/schema.yaml`, synthetic sample records. |
-| `tests/` | 36 tests: leakage, protocol, metrics vs hand calculations, SHAP additivity, app smoke test. |
+| `tests/` | 37 tests: leakage, protocol, metrics vs hand calculations, SHAP additivity, app smoke test. |
 | `generate_docs.py` | Writes `feature_dictionary.md` and `feature_names.json` from the trained model. Never hand-edit those two files. |
 | `make_data.py` | Rebuilds `data/` from the raw Kaggle CSV after a SHA-256 check, using Jyot's code. |
 | `upstream_preprocess.py` | Copy of Jyot's `preprocess.py` (`CleanTransformer`). Treat as M1's code; don't change it without telling Jyot. |

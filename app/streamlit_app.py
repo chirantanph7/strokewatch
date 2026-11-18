@@ -71,6 +71,8 @@ def tab_score(model, explainer):
     source = st.radio("Records", ["Use the built-in synthetic sample", "Upload a CSV"], horizontal=True)
     if source == "Upload a CSV":
         upload = st.file_uploader("CSV file", type=["csv"])
+        st.download_button("Download a template CSV (the 6 synthetic records)",
+                           (ROOT / "app" / "sample_records.csv").read_bytes(), "strokewatch_template.csv", "text/csv")
         if upload is None:
             return
         raw = pd.read_csv(upload, dtype=str, keep_default_na=False)
